@@ -1,2 +1,2 @@
 # CryptoWatch
-Queries coinmarketcap to get current crypto values.
+Queries coinmarketcap to get current crypto values. Work in progress
