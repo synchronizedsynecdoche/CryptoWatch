@@ -7,12 +7,19 @@ p.add_argument("longform", metavar='name:amount', type=str, nargs='+', help="Exp
 arr = p.parse_args()
 
 
+
 def query(crypto, fiat):
 
+
     url = "https://api.coinmarketcap.com/v1/ticker/{}/?convert={}".format(crypto, fiat)
-    data = json.load(urllib.urlopen(url))
-    print(data)
+    data = urllib.urlopen(url)
+    readable = json.load(data)
 
-query("bitcoin", "usd")
+    try:
+        return readable[0]['price_{}'.format(fiat)]
 
+    except KeyError:
+        raise Exception("Invalid Cryptocurrency")
+        return 1
 
+print(query(getattr(arr,'longform')[0],'usd'))
