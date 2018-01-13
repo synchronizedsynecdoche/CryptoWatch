@@ -10,16 +10,28 @@ arr = p.parse_args()
 
 def query(crypto, fiat):
 
-
-    url = "https://api.coinmarketcap.com/v1/ticker/{}/?convert={}".format(crypto, fiat)
+    # give the option of grabbing straight from this link for less than 10 coins
+    #url = "https://api.coinmarketcap.com/v1/ticker/{}/?convert={}".format(crypto, fiat)
+    url = "https://api.coinmarketcap.com/v1/ticker/?convert=USD&limit=0"
     data = urllib.urlopen(url)
     readable = json.load(data)
 
+    iter = 0
+    while True:
+        try:
+            if(readable[iter]['id'] == crypto or readable[iter]['name'] == crypto or readable[iter]['symbol'] == crypto.upper()):
+                return readable[iter]['price_{}'.format(fiat)]
+            iter += 1
+        except IndexError:
+            raise Exception("Invalid Cryptocurrency")
+
+    return 1
+
+iter = 0
+while True:
+
     try:
-        return readable[0]['price_{}'.format(fiat)]
-
-    except KeyError:
-        raise Exception("Invalid Cryptocurrency")
-        return 1
-
-print(query(getattr(arr,'longform')[0],'usd'))
+        print(query(getattr(arr,'longform')[iter].split(":")[0],'usd'))
+        iter += 1
+    except IndexError:
+        break
