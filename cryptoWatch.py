@@ -3,7 +3,9 @@ import json
 import urllib
 
 p = argparse.ArgumentParser(description="Small program for fetching crypto values")
-p.add_argument("longform", metavar='name:amount', type=str, nargs='+', help="Expects the longform name of a cryptocurrency (\"Bitcoin\", not \"BTC\") followed by the amount you own")
+p.add_argument("longform", metavar='name:amount', type=str, nargs='+', help="Expects the name or symbol of a "
+               "cryptocurrency (\"Bitcoin\" or  \"BTC\") followed by the amount you own")
+
 arr = p.parse_args()
 
 
