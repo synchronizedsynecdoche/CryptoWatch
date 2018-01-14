@@ -29,10 +29,16 @@ def query(crypto, fiat):
 
 
 iterator = 0
+sigma = 0
 while True:
 
     try:
-        print(query(getattr(arr,'longform')[iterator].split(":")[0],'usd') * float(getattr(arr,'longform')[iterator].split(":")[1]))
+	amount = query(getattr(arr,'longform')[iterator].split(":")[0],'usd') * float(getattr(arr,'longform')[iterator].split(":")[1])
+
+        print(amount)
         iterator += 1
+	sigma += amount
     except IndexError:
-        break
+        print(sigma)
+	break
+	
