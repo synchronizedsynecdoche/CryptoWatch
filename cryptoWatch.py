@@ -35,10 +35,10 @@ while True:
     try:
 	amount = query(getattr(arr,'longform')[iterator].split(":")[0],'usd') * float(getattr(arr,'longform')[iterator].split(":")[1])
 
-        print(amount)
+        print(getattr(arr,'longform')[iterator].split(":")[0] +" : "+str(amount))
         iterator += 1
 	sigma += amount
     except IndexError:
-        print(sigma)
+        print("Total : "+str(sigma))
 	break
 	
