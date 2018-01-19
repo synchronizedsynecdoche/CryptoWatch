@@ -33,6 +33,10 @@ sigma = 0
 while True:
 
     try:
+        x = getattr(arr,'longform')[iterator].split(":")[1]
+    except IndexError:
+        raise Exception("Invalid amount for {}".format(getattr(arr,'longform')[iterator].split(":")[0]))
+    try:
 	amount = query(getattr(arr,'longform')[iterator].split(":")[0],'usd') * float(getattr(arr,'longform')[iterator].split(":")[1])
 
         print(getattr(arr,'longform')[iterator].split(":")[0] +" : "+str(amount))
