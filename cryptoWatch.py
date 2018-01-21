@@ -16,24 +16,17 @@ p.add_argument("longform", metavar='longform', type=str, nargs='+', help="Expect
 arr = p.parse_args()
 
 
-def makeAPICall(fiat):
-
-    url = "https://api.coinmarketcap.com/v1/ticker/?convert={}&limit=0".format(fiat)
-    data = urllib.urlopen(url)
-    readable = json.load(data)
-
-    return readable
+data = urllib.urlopen("https://api.coinmarketcap.com/v1/ticker/?convert={}&limit=0".format(arr.fiat))
+r = json.load(data)
 
 
-def query(crypto, fiat):
-
-    readable = makeAPICall(fiat)
+def query(crypto, fiat, readable):
     iterator = 0
 
     while True:
         try:
             try:
-                x = readable[iterator]['price_{}'.format(fiat)]
+                readable[iterator]['price_{}'.format(fiat)]
 
             except KeyError:
                 raise Exception("Invalid fiat")
@@ -48,7 +41,7 @@ def query(crypto, fiat):
             raise Exception("Invalid cryptocurrency")
 
 
-time = datetime.fromtimestamp(int(makeAPICall(arr.fiat)[0]['last_updated'])).strftime('%m/%d/%Y %H:%M:%S')  # in a rare situation (the site updates between this line and when the loop starts) this will be off by 5 minutes
+time = datetime.fromtimestamp(int(r[0]['last_updated'])).strftime('%m/%d/%Y %H:%M:%S')
 print("Values updated at {}\n--------------------".format(time))
 
 i = 0
@@ -69,8 +62,8 @@ while True:
 
     try:
 
-        amount = query(arr.longform[i].upper().split(":")[0],arr.fiat.lower()) * float(arr.longform[i].upper().split(":")[1])
-        print(arr.longform[i].upper().split(":")[0] +" : "+str(amount))
+        amount = query(arr.longform[i].upper().split(":")[0],arr.fiat.lower(), r) * float(arr.longform[i].upper().split(":")[1])
+        print(arr.longform[i].upper().split(":")[0] + " : " + str(amount))
         i += 1
         sigma += amount
 
