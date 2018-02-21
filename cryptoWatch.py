@@ -6,19 +6,13 @@ import urllib
 from datetime import datetime
 
 p = argparse.ArgumentParser(description="Small program for fetching crypto values")
-
 p.add_argument('-f', '--fiat',metavar='fiat',type=str,default='usd', help="expects the shorthand ticker symbol for "
                                                                           "a fiat supported by coinmarketcap")
-
 p.add_argument("longform", metavar='longform', type=str, nargs='+', help="Expects the name or symbol of a "
                "cryptocurrency (\"Bitcoin\" or  \"BTC\") followed by the amount you own")
-
 arr = p.parse_args()
-
-
 data = urllib.urlopen("https://api.coinmarketcap.com/v1/ticker/?convert={}&limit=0".format(arr.fiat))
 r = json.load(data)
-
 
 def query(crypto, fiat, readable):
     iterator = 0
